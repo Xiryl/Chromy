@@ -19,11 +19,15 @@ namespace Chromy
             PrintMe.PrintHeader();
 
             #region Load
+
             Console.Write("                               Performing some task... ");
             using (var progress = new ProgressBar())
             {
+  
                 for (int i = 0; i <= 100; i++)
                 {
+
+
                     progress.Report((double)i / 100);
                     Thread.Sleep(10);
                 }
@@ -31,11 +35,23 @@ namespace Chromy
             Console.WriteLine("Done. Type 'help' for help.");
             #endregion
 
-            while(true)
-            // Read Command
-            ReadCommand();
+            if (!CheckFileDb())
+                PrintMe.PrintInfo("ERR ", ConsoleColor.Red, "No databse file found.");
 
-            Console.ReadLine();
+            while (true)
+                ReadCommand();
+
+          //  Console.ReadLine();
+        }
+
+        private static bool CheckFileDb()
+        {
+            string db_way = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                    + "/Google/Chrome/User Data/Default/Login Data";
+            if (File.Exists(db_way))
+                return true;
+            else
+                return true;
         }
 
         private static string ReadCommand()
@@ -93,9 +109,28 @@ namespace Chromy
             }
             else if(cmd == "clear" && !cmd.Contains("dump -d") && !cmd.Contains("-p"))
             {
+                KillChrome();
+                Thread.Sleep(20);
                 string db_way = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
                  + "/Google/Chrome/User Data/Default/Login Data"; // path to database file
-                File.Delete(db_way);
+                try
+                {
+                    File.Delete(db_way);
+                }
+                catch
+                {
+                    Thread.Sleep(20);
+                    string db_way1 = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                     + "/Google/Chrome/User Data/Default/Login Data"; // path to database file
+                    try
+                    {
+                        File.Delete(db_way1);
+                    }
+                    catch
+                    {
+
+                    }
+                }
 
                 PrintMe.PrintInfo(" OK ", ConsoleColor.Green, $"$> CLEAR DONE!");
             }
@@ -122,7 +157,8 @@ namespace Chromy
 
                 PrintMe.PrintInfo("INFO", ConsoleColor.Yellow, $"$> Killing Chrome");
                 KillChrome();
-                if(path == "")
+                Thread.Sleep(20);
+                if (path == "")
                     path += "ChromyDump.html";
                 else
                      path += "\\ChromyDump.html";
