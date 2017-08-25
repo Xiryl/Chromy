@@ -7,16 +7,14 @@ using System.Threading;
 /// </summary>
 public class ProgressBar : IDisposable
 {
-    private const int blockCount = 10;
+    private const int         blockCount = 10;
     private readonly TimeSpan animationInterval = TimeSpan.FromSeconds(1.0 / 8);
-    private const string animation = @"|/-\";
-
-    private readonly Timer timer;
-
-    private double currentProgress = 0;
-    private string currentText = string.Empty;
-    private bool disposed = false;
-    private int animationIndex = 0;
+    private const string      animation = @"|/-\";
+    private readonly Timer    timer;
+    private double            currentProgress = 0;
+    private string            currentText = string.Empty;
+    private bool              disposed = false;
+    private int               animationIndex = 0;
 
     public ProgressBar()
     {
@@ -27,7 +25,6 @@ public class ProgressBar : IDisposable
         // Otherwise, we'll end up with a lot of garbage in the target file.
 
             ResetTimer();
-
     }
 
     public void Report(double value)
