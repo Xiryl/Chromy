@@ -32,6 +32,7 @@ namespace Chromy.core
             sbg.AppendLine(@"                                   _              _     ___        ");
             sbg.AppendLine(@"                                  |_)_      _ .__|_  ||  | _  _ | _");
             sbg.AppendLine(@"                                  | (_)\/\/(/_|  ||_|||  |(_)(_)|_>");
+            sbg.AppendLine("                                            Protect Yourself        ");
             sbg.AppendLine(@"                                                                                                   ");
             sbend.AppendLine(@"####################################################################################################");
 
