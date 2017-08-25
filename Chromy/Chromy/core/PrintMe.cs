@@ -47,11 +47,31 @@ namespace Chromy.core
         public static void PrintHelp()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("\n$> Starting Help Command List...");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump [For dump password list on local folder]");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -d [For dump password list on desktop]");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -p path [For dump password list on specific path]");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> clear [Clear chrome password list]");
+        }
+
+        public static void PrintInfo(string info, ConsoleColor color, string mx)
+        {
+            StringBuilder l = new StringBuilder();
+            StringBuilder c = new StringBuilder();
+            StringBuilder r = new StringBuilder();
+
+            l.Append("[");
+            c.Append(info);
+            r.Append("]");
+
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write(l);
+            Console.ForegroundColor = color;
+            Console.Write(c);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write(r);
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("$> dump [For dump password list on local folder]");
-            Console.WriteLine("$> dump -p \"path\" [For dump password list on specific path]");
-            Console.WriteLine("$> clear [Clear chrome password list]");
+            Console.WriteLine(mx);
         }
     }
 }

