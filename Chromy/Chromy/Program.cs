@@ -49,7 +49,7 @@ namespace Chromy
             {
                 PrintMe.PrintHelp();
             }
-            if (cmd == "dump" && !cmd.Contains("-p"))
+            else if (cmd == "dump" && !cmd.Contains("-p"))
             {
                 Decrypt("");
 
@@ -57,7 +57,7 @@ namespace Chromy
                 Console.Write("\n$> DUMP DONE!");
                 Console.ForegroundColor = ConsoleColor.Red;
             }
-            if (cmd.Contains("dump -p") && !cmd.Contains("-d"))
+            else if(cmd.Contains("dump -p") && !cmd.Contains("-d"))
             {
                 var spath = cmd.Split('-');
 
@@ -69,12 +69,16 @@ namespace Chromy
                 Console.Write("\n$> DUMP DONE!");
                 Console.ForegroundColor = ConsoleColor.Red;
             }
-            if (cmd.Contains("dump -d") && !cmd.Contains("-p"))
+            else if(cmd.Contains("dump -d") && !cmd.Contains("-p"))
             {
                 Decrypt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("\n$> DUMP DONE!");
+                Console.WriteLine("$> DUMP DONE!");
                 Console.ForegroundColor = ConsoleColor.Red;
+            }
+            else
+            {
+                Console.WriteLine("$> Command not found. Retry.");
             }
 
             return null; 

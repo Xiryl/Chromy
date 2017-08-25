@@ -31,7 +31,7 @@ namespace Chromy.core
             sb.AppendLine("                                                                                                     ");
             sbg.AppendLine(@"                                   _              _     ___        ");
             sbg.AppendLine(@"                                  |_)_      _ .__|_  ||  | _  _ | _");
-            sbg.AppendLine(@"                                  | (_)\/\/(/_|  ||_|||  |(_)(_)|_>");
+            sbg.AppendLine(@"                                  | (_)\/\/(/_|  ||_|||  |(_)(_)|_>"); 
             sbg.AppendLine("                                            Protect Yourself        ");
             sbg.AppendLine(@"                                                                                                   ");
             sbend.AppendLine(@"####################################################################################################");
@@ -47,7 +47,7 @@ namespace Chromy.core
         public static void PrintHelp()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("$> Starting Help Command List...");
+            Console.WriteLine("\n$> Starting Help Command List...");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("$> dump [For dump password list on local folder]");
             Console.WriteLine("$> dump -p \"path\" [For dump password list on specific path]");
