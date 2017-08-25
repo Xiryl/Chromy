@@ -13,3 +13,6 @@ You can view the license first. Obviusly I take no responsibility for the indisc
 ### Why I Need To Use It?
 Becouse the chrome password manager is **Really Unsecure!**
 [Read one article about it](http://blog.elliottkember.com/chromes-insane-password-security-strategy)
+
+### Stable Version?
+**No**, i still working on building this program. There is no stable version, but you can download this repo, read the code an thest what i done at this time.
