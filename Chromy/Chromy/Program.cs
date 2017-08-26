@@ -6,6 +6,8 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading;
 
@@ -138,8 +140,20 @@ namespace Chromy
             {
                 // DUMP MAIL COMMAND 
 
+                PrintMe.PrintInfo("INFO", ConsoleColor.Yellow, $"$> Attention: This method send an email from your account to your same account. If you use double autentication this may not work. Password are not saved or logged. Email system use TSL/SSL");
 
-                PrintMe.PrintInfo("ERR ", ConsoleColor.Red, $"$> Not working now.");
+                Console.Write("$> Your Email (i.e. format@mail.com): ");
+                var mail = Console.ReadLine().ToLower();
+                Console.Write("$> Your Email Password (Requied for your SMTP Server aka smtp.google.com): ");
+                var pwd = Console.ReadLine().ToLower();
+
+                MailMessage m = new MailMessage()
+                {
+
+                };
+                SendMail(mail, pwd, m);
+
+                PrintMe.PrintInfo("  ", ConsoleColor.Red, $"$> Not working now.");
 
                 
             }
@@ -152,6 +166,18 @@ namespace Chromy
 
             foreach (Process p in chromeInstances)
                 p.Kill();
+        }
+
+        public static void SendMail(string mail, string pwd, MailMessage Message)
+        {
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.googlemail.com";
+            client.Port = 587;
+            client.UseDefaultCredentials = false;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential("myemail@gmail.com", "password");
+            client.Send(Message);
         }
 
         private static int Decrypt(string path)

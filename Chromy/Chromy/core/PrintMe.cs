@@ -50,7 +50,7 @@ namespace Chromy.core
             PrintInfo("HELP", ConsoleColor.Yellow, "$> dump              [For dump password list on local folder]");
             PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -d           [For dump password list on desktop]");
             PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -p path      [For dump password list on specific path]");
-            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -m e@mail.it [For dump password list on specific email]");
+            PrintInfo("HELP", ConsoleColor.Yellow, "$> dump -m           [For dump password list on specific email (using TSL/SSL)]");
             PrintInfo("HELP", ConsoleColor.Yellow, "$> clear             [Clear chrome password list]");
         }
 
