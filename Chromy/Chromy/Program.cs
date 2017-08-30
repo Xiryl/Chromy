@@ -147,11 +147,12 @@ namespace Chromy
                 Console.Write("$> Your Email Password (Requied for your SMTP Server aka smtp.google.com): ");
                 var pwd = Console.ReadLine().ToLower();
 
-                MailMessage m = new MailMessage()
-                {
+                MailMessage mailMessage = new MailMessage(mail, mail);//replace the address value
+                mailMessage.Subject = "Chromy";
+                mailMessage.Body = "ciao";
 
-                };
-                SendMail(mail, pwd, m);
+
+                var res = SendMail(mail, pwd, mailMessage);
 
                 PrintMe.PrintInfo("  ", ConsoleColor.Red, $"$> Not working now.");
 
@@ -168,16 +169,24 @@ namespace Chromy
                 p.Kill();
         }
 
-        public static void SendMail(string mail, string pwd, MailMessage Message)
+        public static bool SendMail(string mail, string pwd, MailMessage Message)
         {
-            SmtpClient client = new SmtpClient();
-            client.Host = "smtp.googlemail.com";
-            client.Port = 587;
-            client.UseDefaultCredentials = false;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.EnableSsl = true;
-            client.Credentials = new NetworkCredential("myemail@gmail.com", "password");
-            client.Send(Message);
+            try
+            {
+                SmtpClient client = new SmtpClient();
+                client.Host = "smtp.googlemail.com";
+                client.Port = 587;
+                client.UseDefaultCredentials = false;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential(mail, pwd);
+                client.Send(Message);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private static int Decrypt(string path)
