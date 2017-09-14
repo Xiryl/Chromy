@@ -33,3 +33,6 @@ For dump all password in `HTML` format file on `specific` path type:
 
 For clear all db type:
 >$ clear
+
+For send all db to email type (not work now):
+>$ dump -m
